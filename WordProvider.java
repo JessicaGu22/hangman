@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,22 +10,26 @@ public class WordProvider {
 
     static {
         try {
-            // Load the wordlist from the file
-            File file = new File("resources/wordlist.txt"); // Path to the wordlist file
-            Scanner scanner = new Scanner(file);
+            InputStream inputStream = WordProvider.class.getClassLoader().getResourceAsStream("wordlist.txt");
+            if (inputStream == null) {
+                System.err.println("wordlist.txt not found in classpath!");
+                return;
+            }
+
+            Scanner scanner = new Scanner(inputStream);
             while (scanner.hasNextLine()) {
                 wordList.add(scanner.nextLine());
             }
             scanner.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("wordlist.txt not found!");
+        } catch (Exception e) {
+            System.err.println("Error loading wordlist!");
             e.printStackTrace();
         }
     }
 
     public static String getWord() {
         if (wordList.isEmpty()) {
-            return null; // No words available
+            return null;
         }
         Random random = new Random();
         return wordList.get(random.nextInt(wordList.size()));
