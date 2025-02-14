@@ -137,9 +137,30 @@ public class Main {
         System.out.print("Enter Player 2 Name: ");
         String p2 = scanner.nextLine();
 
-        System.out.print("Enter the phrase to guess (hidden from players): ");
-        String phrase = scanner.nextLine();
+        System.out.println("Choose an option:");
+        System.out.println("1. Enter a custom phrase");
+        System.out.println("2. Use a random word from the wordlist");
+        System.out.print("Enter the number of your choice: ");
 
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        String phrase = "";
+
+        if (choice == 1) {
+            System.out.print("Enter the phrase to guess (hidden from players): ");
+            phrase = scanner.nextLine();
+        } else if (choice == 2) {
+            phrase = WordProvider.getWord();
+
+            if (phrase == null) {
+                System.out.println("No words available in the wordlist!");
+                return;
+            }
+        } else {
+            System.out.println("Invalid choice! Exiting the game.");
+            return;
+        }
         Game game = new Game(p1, p2, phrase);
         game.startGame();
 
