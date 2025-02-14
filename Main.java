@@ -129,41 +129,52 @@ class Game {
 
 public class Main {
     public static void main(String[] args) {
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+        boolean playAgain = true;
 
-        System.out.print("Enter Player 1 Name: ");
-        String p1 = scanner.nextLine();
+        while (playAgain) {
+            System.out.print("Enter Player 1 Name: ");
+            String p1 = scanner.nextLine();
 
-        System.out.print("Enter Player 2 Name: ");
-        String p2 = scanner.nextLine();
+            System.out.print("Enter Player 2 Name: ");
+            String p2 = scanner.nextLine();
 
-        System.out.println("Choose an option:");
-        System.out.println("1. Enter a custom phrase");
-        System.out.println("2. Use a random word from the wordlist");
-        System.out.print("Enter the number of your choice: ");
+            System.out.println("Choose an option:");
+            System.out.println("1. Enter a custom phrase");
+            System.out.println("2. Use a random word from the wordlist");
+            System.out.print("Enter the number of your choice: ");
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
-        String phrase = "";
+            String phrase = "";
 
-        if (choice == 1) {
-            System.out.print("Enter the phrase to guess (hidden from players): ");
-            phrase = scanner.nextLine();
-        } else if (choice == 2) {
-            phrase = WordProvider.getWord();
-            if (phrase == null) {
-                System.out.println("No words available in the wordlist!");
+            if (choice == 1) {
+                System.out.print("Enter the phrase to guess (hidden from players): ");
+                phrase = scanner.nextLine();
+            } else if (choice == 2) {
+                phrase = WordProvider.getWord();
+                if (phrase == null) {
+                    System.out.println("No words available in the wordlist!");
+                    return;
+                }
+            } else {
+                System.out.println("Invalid choice! Exiting the game.");
                 return;
             }
-        } else {
-            System.out.println("Invalid choice! Exiting the game.");
-            return;
+
+            Game game = new Game(p1, p2, phrase);
+            game.startGame();
+
+            System.out.print("Do you want to play again? (yes/no): ");
+            String playAgainInput = scanner.nextLine().trim().toLowerCase();
+
+            if (!playAgainInput.equals("yes")) {
+                playAgain = false;
+            }
         }
 
-        Game game = new Game(p1, p2, phrase);
-        game.startGame();
-
+        System.out.println("Thanks for playing! Goodbye!");
         scanner.close();
     }
 }
