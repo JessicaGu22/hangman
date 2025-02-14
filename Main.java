@@ -56,25 +56,35 @@ class Game {
     }
 
     private void playTurn() {
-        System.out.println("Choose an option: ");
-        System.out.println("1 - Guess a letter");
-        System.out.println("2 - Solve the phrase");
+        String choice;
+        do {
+            System.out.println("Choose an option: ");
+            System.out.println("1 - Guess a letter");
+            System.out.println("2 - Solve the phrase");
 
-        String choice = scanner.nextLine().trim();
+            choice = scanner.nextLine().trim();
+            if (!choice.equals("1") && !choice.equals("2")) {
+                System.out.println("Invalid choice, please enter 1 or 2.");
+            }
+        } while (!choice.equals("1") && !choice.equals("2"));
 
         if (choice.equals("1")) {
             guessLetter();
-        } else if (choice.equals("2")) {
-            solvePhrase();
         } else {
-            System.out.println("Invalid choice, please enter 1 or 2.");
+            solvePhrase();
         }
     }
 
     private void guessLetter() {
         System.out.print("Enter a letter: ");
-        char guess = scanner.next().toLowerCase().charAt(0);
-        scanner.nextLine(); // Consume newline
+        String guessInput = scanner.nextLine().toLowerCase().trim();
+
+        if (guessInput.length() != 1 || !Character.isLetter(guessInput.charAt(0))) {
+            System.out.println("Invalid input. Please enter a single letter.");
+            return;
+        }
+
+        char guess = guessInput.charAt(0);
 
         boolean correct = false;
         for (int i = 0; i < phrase.length(); i++) {
@@ -135,4 +145,5 @@ public class Main {
 
         scanner.close();
     }
+
 }
