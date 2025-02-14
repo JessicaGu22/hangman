@@ -129,7 +129,7 @@ class Game {
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
 
         System.out.print("Enter Player 1 Name: ");
         String p1 = scanner.nextLine();
@@ -152,7 +152,6 @@ public class Main {
             phrase = scanner.nextLine();
         } else if (choice == 2) {
             phrase = WordProvider.getWord();
-
             if (phrase == null) {
                 System.out.println("No words available in the wordlist!");
                 return;
@@ -161,6 +160,7 @@ public class Main {
             System.out.println("Invalid choice! Exiting the game.");
             return;
         }
+
         Game game = new Game(p1, p2, phrase);
         game.startGame();
 
